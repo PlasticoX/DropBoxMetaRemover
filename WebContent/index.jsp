@@ -131,9 +131,40 @@
             <p class="name" data-dz-name></p>
             <strong class="error text-danger" data-dz-errormessage></strong>
         </div>
-         <div>
-            <p class="dz-details"></p>
-        </div>
+        <div class="row">
+	        <div class="col-md-6">
+	          <table class="table">
+	            <thead>
+	              <tr>
+	                <th>#</th>
+	                <th>First Name</th>
+	                <th>Last Name</th>
+	                <th>Username</th>
+	              </tr>
+	            </thead>
+	            <tbody>
+	              <tr>
+	                <td>1</td>
+	                <td>Markoantonio</td>
+	                <td>Otto</td>
+	                <td>@mdo</td>
+	              </tr>
+	              <tr>
+	                <td>2</td>
+	                <td>Jacob</td>
+	                <td>Thornton</td>
+	                <td>@fat</td>
+	              </tr>
+	              <tr>
+	                <td>3</td>
+	                <td>Larry</td>
+	                <td>the Bird</td>
+	                <td>@twitter</td>
+	              </tr>
+	            </tbody>
+	          </table>
+	        </div>
+	      </div>
         <div>
             <p class="size" data-dz-size></p>
             <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
