@@ -18,7 +18,7 @@
 
       myDropzone.on("addedfile", function(file) {
         // Hookup the start button
-        file.previewElement.querySelector(".start").onclick = function() { myDropzone.enqueueFile(file); };
+        file.previewElement.querySelector(".start").onclick = function() {  myDropzone.enqueueFile(file); };
       });
 
       // Update the total progress bar
@@ -33,6 +33,14 @@
         file.previewElement.querySelector(".start").setAttribute("disabled", "disabled");
       });
 
+      
+      myDropzone.on("complete", function(file) {
+          
+    	  //showData();
+    	  //alert("entro");
+    	  
+      });
+      
       // Hide the total progress bar when nothing's uploading anymore
       myDropzone.on("queuecomplete", function(progress) {
         document.querySelector("#total-progress").style.opacity = "0";
