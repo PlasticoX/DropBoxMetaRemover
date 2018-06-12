@@ -51,7 +51,6 @@ public class UploadServlet extends HttpServlet {
 		{
 			try
 			{
-				
 				List<FileItem> multiparts = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
 				for(FileItem item : multiparts)
 				{
