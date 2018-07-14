@@ -102,7 +102,10 @@ public class IndexServlet extends HttpServlet {
 		}
 		
 		//Set the attributes on session
-		request.getSession().setAttribute("logged-in-username", user.username);
+		
+		System.out.println("Este es el usuario que traigo :: " + user.getUsername());
+		
+		request.getSession().setAttribute("logged-in-username", user.getUsername());
 		request.setAttribute("user",user);
 
 		//redirect to the home page

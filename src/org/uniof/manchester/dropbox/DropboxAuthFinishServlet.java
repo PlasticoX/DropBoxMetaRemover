@@ -69,7 +69,7 @@ public class DropboxAuthFinishServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
-		System.out.println("Ya llegue hasta el servlet de finish auth FINAL FINAL FINAL para empezar a loggear");
+		//System.out.println("Ya llegue hasta el servlet de finish auth FINAL FINAL FINAL para empezar a loggear");
 		dropboxAuth.doFinish(request, response);
 	}
 	

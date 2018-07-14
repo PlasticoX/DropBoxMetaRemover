@@ -68,9 +68,6 @@ public class DropboxAuthStartServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		// TODO Auto-generated method stub
-		System.out.println("Ya llegue hasta el servlet de auth start");
-		
 		dropboxAuth.doStart(request, response);
 		
 
