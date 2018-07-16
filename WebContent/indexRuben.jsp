@@ -20,7 +20,6 @@
 
  <script>
         function showData(){
-        	//alert("entro a showdata XX");
             var file = document.getElementById("file").files[0];
             OFFICEPROPS.getData(file).then(function(metadata){
                 console.log(metadata);
