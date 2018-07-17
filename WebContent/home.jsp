@@ -22,11 +22,23 @@
 <!-- Personal theme -->
 <link rel="stylesheet" href="css/indexstyle.css">
 <script src="js/dropzone.js"></script>
+<script src="js/dropboxchooser.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/officeprops@1.1.0/src/officeprops.js"></script>
+<script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="tbwtoqi0zw6sf0y"></script>
 
 
 <script>
+
+
+window.onload = function() {
+	   
+	var button = Dropbox.createChooseButton(options);
+	document.getElementById("dropbox-container").appendChild(button);	
+	   
+	  }
+
+
         function showData(){
             var file = document.getElementById("file").files[0];
             OFFICEPROPS.getData(file).then(function(metadata){
@@ -129,7 +141,7 @@ if (user != null)
 			<div id="dropboxactions" class="row">
 				<div class="col-2 pull-right" >
 						<form  action="${pageContext.request.contextPath}/dropbox-unlink" method='POST' >
-							<button type="submit" class="btn btn-dark unlink-dropbox"> <i
+							<button type="submit" class="btn btn-info unlink-dropbox"> <i
 								class="glyphicon glyphicon-link"></i> <span>Unlink Dropbox Account</span>
 							</button>
 						</form>
@@ -203,9 +215,8 @@ if (user != null)
 					<i class="glyphicon glyphicon-ban-circle"></i> <span>Cancel
 						multi-upload</span>
 				</button>
-				<button class="btn btn-info info upload">
-						<i class="glyphicon glyphicon-open-file"></i> <span>Set path in Dropbox</span>
-				</button>
+				<label class="btn btn-default dropboxpath" id="dropbox-container" ><i class="glyphicon glyphicon-folder-close"></i>
+    			</label>
 				
 			</div>
 
@@ -278,9 +289,6 @@ if (user != null)
 				<div>
 					<button class="btn btn-primary start">
 						<i class="glyphicon glyphicon-upload"></i> <span>Start</span>
-					</button>
-					<button class="btn btn-info info setpath">
-						<i class="glyphicon glyphicon-open-file"></i> <span>Set path in Dropbox</span>
 					</button>
 					<button data-dz-remove class="btn btn-warning cancel">
 						<i class="glyphicon glyphicon-ban-circle"></i> <span>Cancel</span>

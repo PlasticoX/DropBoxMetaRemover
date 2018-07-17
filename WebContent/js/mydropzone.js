@@ -129,11 +129,18 @@
         myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED));
       };
       
-   
+     
           
           
    /*
     * 
+    * 
+    *  document.querySelector("#actions .dropboxpath").onclick = function() {
+      	  console.log("Entro a upload a dropbox para el archivo");
+      	  //alert("Aqui va el file browser de dropbox para navegar por tu dropbox");
+          };
+          
+          
     *    document.querySelector("#actions .remove").onclick = function() {
     	  console.log("Entro a removeMetadata para el archivo");
         };
