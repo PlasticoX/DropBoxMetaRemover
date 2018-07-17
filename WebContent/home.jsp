@@ -7,13 +7,11 @@
 <meta charset=="utf-8">
 <title>DropBox Metadata Remover</title>
 
-
 <style>
     form {display: inline-block;}
     
-    p {font-size: 24px !important;}
+    p {font-size: 26px !important;}
 </style>
-
 
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="css/bootstrap.css">
@@ -32,11 +30,10 @@
 
 
 window.onload = function() {
-	   
 	var button = Dropbox.createChooseButton(options);
-	document.getElementById("dropbox-container").appendChild(button);	
-	   
-	  }
+	if(null != document.getElementById("dropbox-container"))
+	{document.getElementById("dropbox-container").appendChild(button);}
+	}
 
 
         function showData(){
@@ -98,9 +95,7 @@ window.onload = function() {
         </script>
 
 </head>
-
 <body>
-
 	<% 
 User user = (User) request.getAttribute("user"); 
 
@@ -110,27 +105,16 @@ if (user != null)
 {
 	String userName = user.getUsername();
 	
-	
-	%>
-
-	
-
-	<% 
-	
 	  //Si trae un usuario verificamos que traiga token osea que su cuenta este linked 
-	
 	  if (user.getDropboxAccessToken() != null) {
-		  
-		  //Aqui va todo el contenido en caso de que ya este linkeada la cuenta y conectado a dropbox
+
+	   //Aqui va todo el contenido en caso de que ya este linkeada la cuenta y conectado a dropbox
 		  
 	%>
 	<div class="container" id="container">
 		<br>
-			
-		<center>
-			<h1>Dropbox Metadata Remover</h1>
-			<br> <br>
-		</center>
+	
+		<center><h1>Dropbox Metadata Remover</h1></center>
 
 		<div class="page-header">
 			
@@ -156,13 +140,11 @@ if (user != null)
 		</div>
 		
 		<div class="well">
-		
-		<h2>Select files</h2>
-		
+		<h2><b>Select files</b> </h2><br>
 			<p class="text-justify">
 				This application can cleanse the selected documents from their <b>metadata</b>
 				<i>(data that provides information about other data)</i> and upload
-				clean documents to the Dropbox platform.<br> <br> <br>
+				clean documents to the Dropbox platform.<br> 
 				<b>Supported files</b> 
 				<ul type="Circle">
     				<li><b>Office Documents</b></li>
