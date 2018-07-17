@@ -25,7 +25,7 @@
 <script src="js/dropboxchooser.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/officeprops@1.1.0/src/officeprops.js"></script>
-<script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="tbwtoqi0zw6sf0y"></script>
+<script src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="tbwtoqi0zw6sf0y"></script>
 
 
 <script>
@@ -215,9 +215,10 @@ if (user != null)
 					<i class="glyphicon glyphicon-ban-circle"></i> <span>Cancel
 						multi-upload</span>
 				</button>
-				<label class="btn btn-default dropboxpath" id="dropbox-container" ><i class="glyphicon glyphicon-folder-close"></i>
+				<label class="btn btn-default" id="dropbox-container" ><i class="glyphicon glyphicon-folder-close"></i>
     			</label>
-				
+				<b>Dropbox Folder: </b> <input type="text" class="form-control" id="dropboxpath" aria-describedby="folder in dropbox" value="/" readonly>
+				<input type="hidden" class="form-control" id="idfolder"  value="sinId" />
 			</div>
 
 			<div class="col-lg-5">
@@ -327,7 +328,7 @@ if (user != null)
 			<div id="dropboxactions" class="row">
 				<div class="col-2 pull-right" >
 						<form  action="${pageContext.request.contextPath}/dropbox-auth-start" method='POST' >
-							<button type="submit" class="btn btn-dark unlink-dropbox"> <i
+							<button type="submit" class="btn btn-info unlink-dropbox"> <i
 								class="glyphicon glyphicon-link"></i> <span>Link to your Dropbox account</span>
 							</button>
 						</form>

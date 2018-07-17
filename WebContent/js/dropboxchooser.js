@@ -6,21 +6,26 @@ options = {
     success: function(files) {
       files.forEach(function(file) {
     	  
-    	  var a   = document.createElement('a');
-    	  a.href = file.link;
-    	  
-    	  alert("file.link "+ file.isDir + "nombre "+ file.name + " id " + file.id );
+    	  if(!file.isDir)
+    	  {
+    		  alert("Please select a folder")
+    	  }else
+    	  {
+    		  //alert("file.link >>"+ file.isDir + " >> nombre >> "+ file.name + " >> id >>" + file.id );
+    		  document.querySelector("#dropboxpath").value = "/" + file.name + "/";
+    		  document.querySelector("#idfolder").value = file.id;
+    	  }	  
         
       });
     },
     cancel: function() {
      
-    	alert("You need to select a folder")
+    	alert("You need to select a folder from Dropbox")
     	//optional
     },
     linkType: "preview", // "preview" or "direct"
     multiselect: false, // true or false
-    extensions: ['.png'],
+    extensions: ['.vx3'],
     folderselect: true,
 };
 

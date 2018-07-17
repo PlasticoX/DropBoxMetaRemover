@@ -281,13 +281,36 @@ public class DropboxBrowse
             return;
         }
 
+        
+        
+        
         // Upload file to Dropbox
         String fullTargetPath = targetFolder + "/" + fileName;
+        
+        Metadata megametadata;
+        
+        
         FileMetadata metadata;
         try {
             metadata = dbxClient.files()
                 .upload(fullTargetPath)
                 .uploadAndFinish(filePart.getInputStream());
+            
+            
+            //Esto ya es mio
+            
+            megametadata = dbxClient.files().getMetadata("id");
+            
+            if (megametadata instanceof FileMetadata) {
+            	
+            	FileMetadata metadatos = (FileMetadata) megametadata;
+            	String aMostrar = metadatos.getPathDisplay();
+            	
+            	System.out.println("A mostrar" + aMostrar);
+            	
+            }
+            
+            
         }
         catch (DbxException ex) {
             common.handleDbxException(response, user, ex, "upload(" + jq(fullTargetPath) + ", ...)");

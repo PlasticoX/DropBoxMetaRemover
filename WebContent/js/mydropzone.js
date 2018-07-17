@@ -43,8 +43,8 @@
         // And disable the start button
         file.previewElement.querySelector(".start").setAttribute("disabled", "disabled");
         
-	    formData.append('fullPath',file.size );
-	    formData.append('otroParametro',"Mas parametros apa" );
+	    formData.append('id',document.querySelector("#idfolder").value );
+	    formData.append('nombreFolder',document.querySelector("#dropboxpath").value );
 	 
 	    /*
 	    for(var pair of formData.entries()) {
