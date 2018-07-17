@@ -9,7 +9,9 @@
 
 
 <style>
-    form {display: inline-block; }
+    form {display: inline-block;}
+    
+    p {font-size: 24px !important;}
 </style>
 
 
@@ -96,8 +98,6 @@ if (user != null)
 {
 	String userName = user.getUsername();
 	
-	System.out.println("Usuario en JSP ::" + user.getUsername());
-	System.out.println("Token en JSP ::" + user.getDropboxAccessToken());
 	
 	%>
 
@@ -145,7 +145,7 @@ if (user != null)
 		
 		<div class="well">
 		
-		<h2>Select Files</h2>
+		<h2>Select files</h2>
 		
 			<p class="text-justify">
 				This application can cleanse the selected documents from their <b>metadata</b>
@@ -203,6 +203,10 @@ if (user != null)
 					<i class="glyphicon glyphicon-ban-circle"></i> <span>Cancel
 						multi-upload</span>
 				</button>
+				<button class="btn btn-info info upload">
+						<i class="glyphicon glyphicon-open-file"></i> <span>Set path in Dropbox</span>
+				</button>
+				
 			</div>
 
 			<div class="col-lg-5">
@@ -275,19 +279,14 @@ if (user != null)
 					<button class="btn btn-primary start">
 						<i class="glyphicon glyphicon-upload"></i> <span>Start</span>
 					</button>
+					<button class="btn btn-info info setpath">
+						<i class="glyphicon glyphicon-open-file"></i> <span>Set path in Dropbox</span>
+					</button>
 					<button data-dz-remove class="btn btn-warning cancel">
 						<i class="glyphicon glyphicon-ban-circle"></i> <span>Cancel</span>
 					</button>
 					<button data-dz-remove class="btn btn-danger delete">
 						<i class="glyphicon glyphicon-trash"></i> <span>Delete</span>
-					</button>
-					<button class="btn btn-primary primary">
-						<i class="glyphicon glyphicon-filter"></i> <span>Remove
-							metadata</span>
-					</button>
-					<button class="btn btn-info info">
-						<i class="glyphicon glyphicon-open-file"></i> <span>Upload
-							to Dropbox</span>
 					</button>
 				</div>
 			</div>

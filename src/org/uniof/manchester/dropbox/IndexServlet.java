@@ -74,7 +74,7 @@ public class IndexServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		String username = request.getParameter("username");
-		System.out.println("username :: " +  username);
+		//System.out.println("username :: " +  username);
 
 		if (username == null) {
 			response.sendError(400, "Missing field \"username\".");
@@ -103,7 +103,7 @@ public class IndexServlet extends HttpServlet {
 		
 		//Set the attributes on session
 		
-		System.out.println("Este es el usuario que traigo :: " + user.getUsername());
+		//System.out.println("Este es el usuario que traigo :: " + user.getUsername());
 		
 		request.getSession().setAttribute("logged-in-username", user.getUsername());
 		request.setAttribute("user",user);

@@ -56,9 +56,20 @@ public class UploadServlet extends HttpServlet {
 				{
 					if(!item.isFormField())
 					{
+			
+						
 						String name = new File(item.getName()).getName();
 						item.write(new File(UPLOAD_DIRECTORY + File.separator + name));
+						
+						System.out.println("Es un archivo de nombre >> " + name );
+					}else if (item.isFormField())
+					{
+						String name = item.getFieldName();
+					    String value = item.getString();
+						
+						System.out.println("Estos son los datos de la forma nombre >> " + name +  " a ver si es cierta esta mamada valor >> "+ value);
 					}
+						
 				}
 				request.setAttribute("message", "File uploaded successfully.");
 			}
