@@ -1,4 +1,4 @@
-package org.uniof.manchester.dropbox.uploads;
+package org.uniof.manchester.dropbox;
 
 import java.io.File;
 import java.io.IOException;

@@ -25,14 +25,6 @@
         // Hookup the start button
         file.previewElement.querySelector(".start").onclick = function() {  myDropzone.enqueueFile(file); };
         
-        
-        
-        
-       
-        
-        
-        
-        
       });
       
       async function removedata(file){
