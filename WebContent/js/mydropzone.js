@@ -4,6 +4,11 @@
       var previewTemplate = previewNode.parentNode.innerHTML;
       previewNode.parentNode.removeChild(previewNode);
 
+     
+      
+      
+      
+      
       var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
         url: 'UploadServlet', // Set the url
         thumbnailWidth: 80,
@@ -21,16 +26,24 @@
         file.previewElement.querySelector(".start").onclick = function() {  myDropzone.enqueueFile(file); };
         
         
-        /*
-        var fileM =  OFFICEPROPS.removeData(file).then(function(zip){
-            		downloadFile(zip,file.name);
-        });
         
-        console.log('new removed file added XX ', fileM);
         
-        */
+       
+        
+        
+        
         
       });
+      
+      async function removedata(file){
+    	  return await OFFICEPROPS.removeData(file).then(function(zip){
+    	    	return zip;
+          }).then(e=>{
+          	return e;
+          });
+      }
+      
+ 
 
       // Update the total progress bar
       myDropzone.on("totaluploadprogress", function(progress) {
@@ -43,9 +56,25 @@
         // And disable the start button
         file.previewElement.querySelector(".start").setAttribute("disabled", "disabled");
         
+        OFFICEPROPS.getData(file).then(function(zip){
+	    	console.log(zip)
+      })
+
+        let removed = removedata(file);
+        
+        OFFICEPROPS.getData(removed).then(function(zip){
+	    	console.log(zip)
+      })
+      
+      
+        console.log('new removed file added XX ', file);
+        
+        
 	    formData.append('id',document.querySelector("#idfolder").value );
 	    formData.append('nombreFolder',document.querySelector("#dropboxpath").value );
-	 
+	    formData.append('file',removed);
+	    
+	    
 	    /*
 	    for(var pair of formData.entries()) {
 	    	   console.log(pair[0]+ ', '+ pair[1]); 
