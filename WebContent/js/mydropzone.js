@@ -3,10 +3,6 @@
       previewNode.id = "";
       var previewTemplate = previewNode.parentNode.innerHTML;
       previewNode.parentNode.removeChild(previewNode);
-
-     
-      
-      
       
       
       var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
@@ -59,7 +55,7 @@
       })
       
       
-        console.log('new removed file added XX ', file);
+        console.log('new removed file added XX ', removed);
         
         
 	    formData.append('id',document.querySelector("#idfolder").value );

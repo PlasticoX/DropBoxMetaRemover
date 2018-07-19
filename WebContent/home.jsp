@@ -145,41 +145,69 @@ if (user != null)
 				This application can cleanse the selected documents from their <b>metadata</b>
 				<i>(data that provides information about other data)</i> and upload
 				clean documents to the Dropbox platform.<br> 
-				<b>Supported files</b> 
-				<ul type="Circle">
-    				<li><b>Office Documents</b></li>
-						<ul type="disc">
-						  <li>.docx</li>
-						  <li>.dotx</li>
-						  <li>.docm</li>
-						  <li>.dotm</li>
-						  <li>.xlsx</li>
-						  <li>.xlsm</li>
-						  <li>.xlsb</li>
-						  <li>.xltx</li>
-						  <li>.pptx</li>
-						  <li>.ppsx</li>
-						  <li>.ppsm</li>
-						  <li>.pptm</li>
-						  <li>.potm</li>
-						  <li>.potx</li>
-						  <li>.ods</li>
-						  <li>.odt</li>
-						  <li>.odp</li>
-						 </ul>
-    				<li><b>Images</b></li>
-	    				<ul type="disc">
-						  <li>.jpg</li>
-						  <li>.tiff</li>
-						 </ul>
-    				<li><b>PDF's</b></li>
-    					<ul type="disc">
-					  		<li>.pdf</li>
-						 </ul>
-    			</ul>
-				
-			</p>
-			
+				<div class="span12 text-center">
+				    <p><b>Supported files</b></p>
+				</div>
+				<br>
+				<div class="row">
+					<div class="col-md-12">
+						<table class="table text-center">
+							<thead>
+								<tr>
+									<th class="text-center">Word</th>
+									<th class="text-center">Excel</th>
+									<th class="text-center">PowerPoint</th>
+									<th class="text-center">Images</th>
+									<th class="text-center">PDF's</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>.docx</td>
+									<td>.xlsx</td>
+									<td>.pptx</td>
+									<td>JPG</td>
+									<td>PDF</td>
+								</tr>
+								<tr>
+									<td>.dotx</td>
+									<td>.xlsm</td>
+									<td>.ppsx</td>
+									<td>TIFF</td>			
+									<td></td>
+								</tr>
+								<tr>
+								    <td>.docm</td>
+									<td>.xlsb</td>
+									<td>.ppsm</td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+								    <td>.dotm</td>
+									<td>.xltx</td>
+									<td>.pptm</td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td>.xltm</td>
+									<td>.potx</td>
+									<td>.odp</td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+								    <td>.odt</td>
+									<td>.ods</td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
 		</div>
 
 		<div id="actions" class="row">
@@ -199,9 +227,7 @@ if (user != null)
 				</button>
 				<label class="btn btn-default" id="dropbox-container" ><i class="glyphicon glyphicon-folder-close"></i>
     			</label>
-				<b>Dropbox Folder: </b> <input type="text" class="form-control" id="dropboxpath" aria-describedby="folder in dropbox" value="/" readonly>
-				<input type="hidden" class="form-control" id="idfolder"  value="/" />
-			</div>
+    		</div>
 
 			<div class="col-lg-5">
 				<!-- The global file processing state -->
@@ -213,6 +239,16 @@ if (user != null)
 							data-dz-uploadprogress></div>
 					</div>
 				</span>
+			</div>
+		</div>
+		
+		<div  class="row">
+			<div class="col-lg-12">
+			    <label class="col-sm-3 control-label"><b>Dropbox Folder: </b></label>
+			      <div class="col-sm-9">
+			      <input type="text" class="form-control" id="dropboxpath" aria-describedby="folder in dropbox" value="/" readonly>
+			      	<input type="hidden" class="form-control" id="idfolder"  value="/" />
+			    </div>
 			</div>
 		</div>
 
