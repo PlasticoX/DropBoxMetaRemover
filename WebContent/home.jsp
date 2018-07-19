@@ -200,7 +200,7 @@ if (user != null)
 				<label class="btn btn-default" id="dropbox-container" ><i class="glyphicon glyphicon-folder-close"></i>
     			</label>
 				<b>Dropbox Folder: </b> <input type="text" class="form-control" id="dropboxpath" aria-describedby="folder in dropbox" value="/" readonly>
-				<input type="hidden" class="form-control" id="idfolder"  value="sinId" />
+				<input type="hidden" class="form-control" id="idfolder"  value="/" />
 			</div>
 
 			<div class="col-lg-5">

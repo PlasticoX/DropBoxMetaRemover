@@ -63,8 +63,8 @@
         
         
 	    formData.append('id',document.querySelector("#idfolder").value );
-	    formData.append('nombreFolder',document.querySelector("#dropboxpath").value );
-	    formData.append('file',removed);
+	    //formData.append('nombreFolder',document.querySelector("#dropboxpath").value );
+	    //formData.append('file',removed);
 	    
 	    
 	    /*
