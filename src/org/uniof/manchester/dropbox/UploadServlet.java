@@ -34,12 +34,10 @@ import com.dropbox.core.v2.files.Metadata;
 @WebServlet("/UploadServlet")
 @SuppressWarnings("unchecked")
 public class UploadServlet extends HttpServlet {
-	//private final String UPLOAD_DIRECTORY = "C:/abc";
 	private static final long serialVersionUID = 1L;
 	
 	ResourceBundle propsDR=ResourceBundle.getBundle("dataremover");
 	private final Common common;
-	//private final DropboxBrowse dropboxBrowse;
 	
     /**
      * @throws DatabaseException 
@@ -63,15 +61,12 @@ public class UploadServlet extends HttpServlet {
 		File dbFile = new File(argDatabase);
 		this.common = new Common(new PrintWriter(System.out, true), dbxAppInfo, dbFile);
     }
-
-	
    
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doPost(request, response);
 	}
 
@@ -94,10 +89,7 @@ public class UploadServlet extends HttpServlet {
 			{
 				List<FileItem> multiparts = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
 				String targetPath = "";
-				
-				System.out.println("Estoy en el try");
-				
-				
+			
 				//For de propiedades
 				for(FileItem item : multiparts)
 				{
@@ -108,57 +100,24 @@ public class UploadServlet extends HttpServlet {
 					   
 						if(name.equals("id"))
 						{
-							
-							System.out.println("Estos son los datos de la forma nombre >> " + name +  " a ver si es cierta esta mamada valor >> "+ value);
-							
 							if(!value.equals("/"))
 							{
-								
-								System.out.println("Traigo folder no soy root");
 								targetPath = getTargetFolderPath(value , dbxClient);
-									
-							}else
-							{
-								System.out.println("Soy root  " + value );
-								
-							}	
-							
+							}
 				    	}
-						
 					}
 				}
 				
 				//For de archivos
 				for(FileItem item : multiparts)
 				{
-					
-					System.out.println("Entro al for de los archivos");
-					
 					if(!item.isFormField())
 					{
 						String fileName = item.getName();
 						String fullTargetPath = targetPath + "/" + fileName;
-						
-						/*
-						if(!targetPath.equals("/"))
-						{
-							
-							fullTargetPath = targetPath + "/" + fileName;
-							
-							System.out.println("Esto es el fulltarget path con folder " + fullTargetPath);
-						}else
-						{
-							fullTargetPath = fileName.replace("/", "");
-						}
-						*/
-						
-						System.out.println("Esto es el fulltarget path " + fullTargetPath);
-						
-					
-						
 						FileMetadata metadata = dbxClient.files().upload(fullTargetPath).uploadAndFinish(item.getInputStream());
-						System.out.println("Asi quedo en dropbox >> " + metadata.toStringMultiline());
 						request.setAttribute("message", "File uploaded successfully.");
+						System.out.println("Asi quedo en dropbox >> " + metadata.toStringMultiline());
 					}
 				}
 			}
@@ -173,10 +132,7 @@ public class UploadServlet extends HttpServlet {
 			request.setAttribute("message", "Sorry this servlet only handles file upload request.");
 		}
 		request.getRequestDispatcher("/result.jsp").forward(request, response);
-		
 	}
-	
-	
 	   
 	   private DbxClientV2 requireDbxClient(HttpServletRequest request, HttpServletResponse response, User user)
 	            throws IOException, ServletException
@@ -198,10 +154,8 @@ public class UploadServlet extends HttpServlet {
 	    	
 	    	  try {
 		        
-	    		  Metadata megametadata = dbxClient.files().getMetadata(value);
+	    		 Metadata megametadata = dbxClient.files().getMetadata(value);
 		         path = megametadata.getPathDisplay();
-	    	      
-	    		  //System.out.println("Esto es lo que obtengo desde dropbox :: "+ megametadata.toString() + " >> Display Path >> " + megametadata.getPathDisplay());
 	                
 		        }catch (DbxException ex) {
 		            
@@ -210,7 +164,4 @@ public class UploadServlet extends HttpServlet {
 	    	  
 	   	   return path;
 	    }
-	    
-	
-
 }
