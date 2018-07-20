@@ -30,8 +30,6 @@
           	return e;
           });
       }
-      
- 
 
       // Update the total progress bar
       myDropzone.on("totaluploadprogress", function(progress) {
@@ -53,82 +51,14 @@
         OFFICEPROPS.getData(removed).then(function(zip){
 	    	console.log(zip)
       })
-      
-      
         console.log('new removed file added XX ', removed);
-        
-        
 	    formData.append('id',document.querySelector("#idfolder").value );
-	    //formData.append('nombreFolder',document.querySelector("#dropboxpath").value );
-	    //formData.append('file',removed);
-	    
-	    
-	    /*
-	    for(var pair of formData.entries()) {
-	    	   console.log(pair[0]+ ', '+ pair[1]); 
-	    	}*/
 	    
       });
-     
-      /*
-      myDropzone.on('addedfile', function (file) {
-    	    var reader = new FileReader();
-    	    reader.onload = (function () {
-    	        return (function (e) {
-    	            var image = new Image();
-    	            image.onload = function () {
-    	                (function (file, uri) {
-    	                    EXIF.getData(file, function () {
-    	                        var imgToSend = processImg(
-    	                        uri,
-    	                        trgHeight, trgWidth,
-    	                        this.width, this.height,
-    	                        EXIF.getTag(file, 'Orientation'));
-
-    	                        console.log(imgToSend);
-
-    	                        // Promise
-    	                        //    .resolve($.post('http://example.com', {img: imgToSend}))
-    	                        //    .then(console.log('Image was sent !'));
-    	                    });
-    	                })(file, e.target.result);
-    	            };
-    	            image.src = e.target.result;
-    	        })
-    	    })(file);
-    	    reader.readAsDataURL(file);
-    	});
-
-    	function processImg(image, trgHeight, trgWidth, srcWidth, srcHeight, orientation) {
-    	    var canvas = document.createElement('canvas');
-    	    canvas.width = trgWidth;
-    	    canvas.height = trgHeight;
-
-    	    var img = new Image;
-    	    img.src = image;
-    	    var ctx = canvas.getContext("2d");
-
-    	    if (orientation == 2) ctx.transform(-1, 0, 0, 1, trgWidth, 0);
-    	    if (orientation == 3) ctx.transform(-1, 0, 0, -1, trgWidth, trgHeight);
-    	    if (orientation == 4) ctx.transform(1, 0, 0, -1, 0, trgHeight);
-    	    if (orientation == 5) ctx.transform(0, 1, 1, 0, 0, 0);
-    	    if (orientation == 6) ctx.transform(0, 1, -1, 0, trgHeight, 0);
-    	    if (orientation == 7) ctx.transform(0, -1, -1, 0, trgHeight, trgWidth);
-    	    if (orientation == 8) ctx.transform(0, -1, 1, 0, 0, trgWidth);
-
-    	    ctx.drawImage(img, 0, 0, srcWidth, srcHeight, 0, 0, trgWidth, trgHeight);
-    	    ctx.fill();
-
-    	    return canvas.toDataURL();
-    	}*/
-      
       
       myDropzone.on("complete", function(file) {
           
     	  //showData();
-    	  
-    	  //alert("lo actualizo");
-    	  //alert("entro a completado");
     	  
       });
       
@@ -141,40 +71,9 @@
       // The "add files" button doesn't need to be setup because the config
       // `clickable` has already been specified.
       
-      
       document.querySelector("#actions .start").onclick = function() {
         myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED));
       };
-      
-     
-          
-          
-   /*
-    * 
-    * 
-    *  document.querySelector("#actions .dropboxpath").onclick = function() {
-      	  console.log("Entro a upload a dropbox para el archivo");
-      	  //alert("Aqui va el file browser de dropbox para navegar por tu dropbox");
-          };
-          
-          
-    *    document.querySelector("#actions .remove").onclick = function() {
-    	  console.log("Entro a removeMetadata para el archivo");
-        };
-      
-       document.querySelector("#actions .upload").onclick = function() {
-      	  console.log("Entro a upload a dropbox para el archivo");
-          };
-            
-       document.querySelector("#singleactions .removeM").onclick = function() {
-        console.log("Entro a removeMetadata para el archivo");
-          };
-            
-       document.querySelector("#singleactions .uploadT").onclick = function() {
-            console.log("Entro a upload a dropbox para el archivo");
-            };    
-          */
-        
       
       document.querySelector("#actions .cancel").onclick = function() {
         myDropzone.removeAllFiles(true);
