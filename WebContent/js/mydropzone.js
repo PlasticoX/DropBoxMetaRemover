@@ -21,7 +21,134 @@
         // Hookup the start button
         file.previewElement.querySelector(".start").onclick = function() {  myDropzone.enqueueFile(file); };
         
+        
+        //Aqui tengo que checar las extensiones de los archivos permitidos y las diferentes formas que desplegamos
+        
+        
+        
+        //Aqui empieza el desmadre
+           
+        
+        
+        //Asi creamos la tabla para los de office
+       
+        OFFICEPROPS.getData(file).then(function(metadata){
+
+                var createTableRow = (name,value) => {
+                    var row = document.createElement("TR");
+                    var cellName = document.createElement("TD"), txtName = document.createTextNode(splitInitCap(name));
+                    var cellValue = document.createElement("TD"), txtValue = document.createTextNode(value);
+                
+                    //Eliminamos los valores nulos
+                    if(value)
+                    {
+                    	if(value !== "")
+                    	{
+                    		cellName.appendChild(txtName);
+                            row.appendChild(cellName);
+                       	 
+                            cellValue.appendChild(txtValue);
+                            row.appendChild(cellValue);
+                    	}	
+                    }	
+                    
+                    
+                    return row;
+                }
+                var appendData = (metadata) => {
+                    
+                	var tabla = document.createElement("table");
+                	tabla.setAttribute('class', 'table');
+                	var thead = document.createElement("thead");
+                	var row = document.createElement("TR");
+                	var cellName = document.createElement("TH"), txtName = document.createTextNode("Property");
+                    var cellValue = document.createElement("TH"), txtValue = document.createTextNode("Value");
+                    
+                    cellName.setAttribute("scope","col");
+                    cellName.setAttribute("class","col-md-auto");
+                    
+                    cellValue.setAttribute("scope","col");
+                    cellValue.setAttribute("class","col-md-auto");
+                    
+                    cellName.appendChild(txtName);
+                    row.appendChild(cellName);
+               	    cellValue.appendChild(txtValue);
+                    row.appendChild(cellValue);
+                    thead.appendChild(row);
+                    tabla.appendChild(thead);
+                    var tbody = document.createElement("tbody");
+                 	
+                	for(key in metadata){
+                        var data = metadata[key];
+                        tbody.appendChild(createTableRow(key,data.value));
+                    }
+                	
+                	tabla.appendChild(tbody);
+                	
+                	//Aqui appendearemos la tabla completa
+                	document.querySelector("#tablon").appendChild(tabla);
+                	console.log(document.querySelector("#tablon").innerHTML);
+                	
+                }
+                
+                appendData(metadata.editable);
+                
+             	//Limpiamos
+            	//document.querySelector("#tablon").innerHTML='';
+           
+                //appendData(metadata.readOnly);
+            });
+           
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        //var mytable = Dropzone.createElement("<table class='table'><thead><tr><th>#</th><th>First Name</th><th>Last Name</th><th>Username</th></tr></thead><tbody><tr><td>1</td><td>Markoantonio</td><td>Otto</td><td>@mdo</td></tr><tr><td>2</td><td>Jacob</td><td>Thornton</td><td>@fat</td></tr><tr><td>3</td><td>Larry</td><td>the Bird</td><td>@twitter</td></tr></tbody></table>");
+        //document.querySelector("#tablon").appendChild(mytable);
+    
+        
+        
+        //var removeButton  = Dropzone.createElement("<button class='btn btn-danger btn-xs btn-block' style='margin-top:5px;'>Remove file</button>");
+        //var _this = this;
+        //var ext = getFileExtension(file);
+        //ext = ''+ext.toLowerCase();
+
+        //console.log("extension "+ext);
+        
+        //if(ext != "png" && ext != "jpg" && ext != "JPG" && ext != "gif" && ext != "bmp")
+        //    _this.removeFile(file);
+        /*
+        removeButton.addEventListener("click", function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            _this.removeFile(file);
+        });*/
+
+        //file.previewElement.find('.dz-progress').hide();
+        //file.previewElement.appendChild(removeButton);
+        
+        
+        
       });
+      
+      function getFileExtension(file){
+          return file.name.split('.').pop().toLowerCase();
+      }
+      
+      function splitInitCap(str){   
+          return (str[0].toUpperCase()+
+                  str.substring(1))
+                  .replace(/[A-Z]{2,}[a-z]/g,e=>`${e.slice(0,-2)} ${e.slice(-2)}`)
+                  .replace(/[A-Z][a-z]+/g,e=>" "+e)
+                  .replace(/[a-z][A-Z]+/g,e=>`${e[0]} ${e.slice(1)}`)
+                  .replace(/ +/g," ")
+                  .trim();
+      }
       
       async function removedata(file){
     	  return await OFFICEPROPS.removeData(file).then(function(zip){
