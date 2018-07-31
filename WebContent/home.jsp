@@ -25,76 +25,16 @@
 <script src="js/dropboxchooser.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/officeprops@1.1.0/src/officeprops.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.js"></script>
 <script src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="tbwtoqi0zw6sf0y"></script>
 
-
 <script>
-
-
 window.onload = function() {
 	var button = Dropbox.createChooseButton(options);
 	if(null != document.getElementById("dropbox-container"))
 	{document.getElementById("dropbox-container").appendChild(button);}
 	}
-
-
-        function showData(){
-            var file = document.getElementById("file").files[0];
-            OFFICEPROPS.getData(file).then(function(metadata){
-                console.log(metadata);
-                var createTableRow = (name,value) => {
-                    var row = document.createElement("TR");
-                    var cellName = document.createElement("TD"), txtName = document.createTextNode(name);
-                    cellName.appendChild(txtName);
-                    row.appendChild(cellName);
-                    var cellValue = document.createElement("TD"), txtValue = document.createTextNode(value);
-                    cellValue.appendChild(txtValue);
-                    row.appendChild(cellValue);
-                    return row;
-                }
-                var appendData = (metadata) => {
-                    for(key in metadata){
-                        var data = metadata[key];
-                        container.append(createTableRow(key,data.value))
-                    }
-                }
-                var container = document.getElementById("container");
-                container.innerHTML='';
-                appendData(metadata.editable);
-                appendData(metadata.readOnly);
-            });
-        }    
-        
-        function removeData(){
-            var file = document.getElementById("file").files[0];
-            OFFICEPROPS.removeData(file).then(function(zip){
-                downloadFile(zip,file.name);
-            });
-        }
-        
-        function anonymousAuthor(){
-            var file = document.getElementById("file").files[0];
-            OFFICEPROPS.getData(file).then(function(metaData){
-                metaData.editable.creator.value = "anonymous";
-                OFFICEPROPS.editData(file,metaData).then(function(zip){
-                    downloadFile(zip,file.name)
-                });
-            });
-        }
-        
-        function downloadFile(blob,fileName){
-            var a = document.createElement("a");
-            document.body.appendChild(a);
-            a.style = "display: none";
-            var url = window.URL.createObjectURL(blob);
-            a.href = url;
-            a.download = fileName;
-            a.click();
-            window.URL.revokeObjectURL(url);  
-        }
-        
-        
-        </script>
+</script>
 
 </head>
 <body>
@@ -254,6 +194,9 @@ if (user != null)
 			</div>
 		</div>
 
+		<br>
+		<br>
+
 		<div class="table table-striped files" id="previews">
 
 			<div id="template" class="file-row">
@@ -263,13 +206,11 @@ if (user != null)
 				</div>
 				<div>
 					<p class="name" data-dz-name></p>
-					<strong class="error text-danger" data-dz-errormessage></strong>
+					<strong class="error text-danger" 1></strong>
 				</div>
 				<div class="row">
-					<div class="col-md-12 tablon" id="tablon">
-					
+					<div class="col-md-12 tablon" id="tablon" data-tagline>
 						<!-- Aqui va la tabla creada dinamicamente desde el script -->
-						
 					</div>
 				</div>
 				<div>

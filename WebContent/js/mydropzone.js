@@ -24,115 +24,134 @@
         
         //Aqui tengo que checar las extensiones de los archivos permitidos y las diferentes formas que desplegamos
         
+        const ext = getFileExtension(file);
         
         
-        //Aqui empieza el desmadre
-           
-        
-        
-        //Asi creamos la tabla para los de office
-       
-        OFFICEPROPS.getData(file).then(function(metadata){
+        if(ext in OFFICEPROPS.mimeTypes){
+          
+        	//Asi creamos la tabla para los de office
+            OFFICEPROPS.getData(file).then(function(metadata){
 
-                var createTableRow = (name,value) => {
-                    var row = document.createElement("TR");
-                    var cellName = document.createElement("TD"), txtName = document.createTextNode(splitInitCap(name));
-                    var cellValue = document.createElement("TD"), txtValue = document.createTextNode(value);
-                
-                    //Eliminamos los valores nulos
-                    if(value)
-                    {
-                    	if(value !== "")
-                    	{
-                    		cellName.appendChild(txtName);
-                            row.appendChild(cellName);
-                       	 
-                            cellValue.appendChild(txtValue);
-                            row.appendChild(cellValue);
-                    	}	
-                    }	
+                        var createTableRow = (name,value) => {
+                        var row = document.createElement("TR");
+                        var cellName = document.createElement("TD"), txtName = document.createTextNode(splitInitCap(name));
+                        var cellValue = document.createElement("TD"), txtValue = document.createTextNode(value);
                     
-                    
-                    return row;
-                }
-                var appendData = (metadata) => {
-                    
-                	var tabla = document.createElement("table");
-                	tabla.setAttribute('class', 'table');
-                	var thead = document.createElement("thead");
-                	var row = document.createElement("TR");
-                	var cellName = document.createElement("TH"), txtName = document.createTextNode("Property");
-                    var cellValue = document.createElement("TH"), txtValue = document.createTextNode("Value");
-                    
-                    cellName.setAttribute("scope","col");
-                    cellName.setAttribute("class","col-md-auto");
-                    
-                    cellValue.setAttribute("scope","col");
-                    cellValue.setAttribute("class","col-md-auto");
-                    
-                    cellName.appendChild(txtName);
-                    row.appendChild(cellName);
-               	    cellValue.appendChild(txtValue);
-                    row.appendChild(cellValue);
-                    thead.appendChild(row);
-                    tabla.appendChild(thead);
-                    var tbody = document.createElement("tbody");
-                 	
-                	for(key in metadata){
-                        var data = metadata[key];
-                        tbody.appendChild(createTableRow(key,data.value));
+                        //Eliminamos los valores nulos
+                        if(value)
+                        {
+                        	if(value !== "")
+                        	{
+                        		cellName.appendChild(txtName);
+                                row.appendChild(cellName);
+                           	 
+                                cellValue.appendChild(txtValue);
+                                row.appendChild(cellValue);
+                        	}	
+                        }	
+                        return row;
                     }
-                	
-                	tabla.appendChild(tbody);
-                	
-                	//Aqui appendearemos la tabla completa
-                	document.querySelector("#tablon").appendChild(tabla);
-                	console.log(document.querySelector("#tablon").innerHTML);
-                	
+                        
+                    var appendData = (metadata) => {
+                    	var tabla = document.createElement("table");
+                    	tabla.setAttribute('class', 'table');
+                    	var thead = document.createElement("thead");
+                    	var row = document.createElement("TR");
+                    	var cellName = document.createElement("TH"), txtName = document.createTextNode("Property");
+                        var cellValue = document.createElement("TH"), txtValue = document.createTextNode("Value");
+                      
+                        cellName.appendChild(txtName);
+                        row.appendChild(cellName);
+                   	    cellValue.appendChild(txtValue);
+                        row.appendChild(cellValue);
+                        thead.appendChild(row);
+                        tabla.appendChild(thead);
+                        var tbody = document.createElement("tbody");
+                     	
+                    	for(key in metadata){
+                            var data = metadata[key];
+                            tbody.appendChild(createTableRow(key,data.value));
+                        }
+                    	
+                    	tabla.appendChild(tbody);
+                    	
+                    	//Aqui appendearemos la tabla completa
+                    	file.previewTemplate.querySelector("[data-tagline]").appendChild(tabla);
+                    }
+                    
+                    appendData(metadata.editable);
+                   });
+               
+        }else if(ext=='jpg' || ext == "tiff"){
+        
+        	    EXIF.enableXmp();
+                EXIF.getData(file, function() {
+                let metadata  = EXIF.getAllTags(this);
+                
+                if(metadata.hasOwnProperty("thumbnail")){
+                    delete metadata['thumbnail'];
                 }
                 
-                appendData(metadata.editable);
-                
-             	//Limpiamos
-            	//document.querySelector("#tablon").innerHTML='';
-           
-                //appendData(metadata.readOnly);
-            });
-           
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        //var mytable = Dropzone.createElement("<table class='table'><thead><tr><th>#</th><th>First Name</th><th>Last Name</th><th>Username</th></tr></thead><tbody><tr><td>1</td><td>Markoantonio</td><td>Otto</td><td>@mdo</td></tr><tr><td>2</td><td>Jacob</td><td>Thornton</td><td>@fat</td></tr><tr><td>3</td><td>Larry</td><td>the Bird</td><td>@twitter</td></tr></tbody></table>");
-        //document.querySelector("#tablon").appendChild(mytable);
-    
-        
-        
-        //var removeButton  = Dropzone.createElement("<button class='btn btn-danger btn-xs btn-block' style='margin-top:5px;'>Remove file</button>");
-        //var _this = this;
-        //var ext = getFileExtension(file);
-        //ext = ''+ext.toLowerCase();
-
-        //console.log("extension "+ext);
-        
-        //if(ext != "png" && ext != "jpg" && ext != "JPG" && ext != "gif" && ext != "bmp")
-        //    _this.removeFile(file);
-        /*
-        removeButton.addEventListener("click", function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            _this.removeFile(file);
-        });*/
-
-        //file.previewElement.find('.dz-progress').hide();
-        //file.previewElement.appendChild(removeButton);
-        
-        
+                    var createTableRow = (name,value) => {
+                        var row = document.createElement("TR");
+                        var cellName = document.createElement("TD"), txtName = document.createTextNode(splitInitCap(name));
+                        var cellValue = document.createElement("TD"), txtValue = document.createTextNode(value);
+                    
+                        if(value)
+                        {
+                        	if(name != 'undefined' || value.length<100 )
+                        	{
+                        		
+                        		cellName.appendChild(txtName);
+                                row.appendChild(cellName);
+                           	 
+                                cellValue.appendChild(txtValue);
+                                row.appendChild(cellValue);
+                        	}	
+                        }	
+                        return row;
+                    }
+                    
+                    var appendData = (metadata) => {
+                    	var tabla = document.createElement("table");
+                    	tabla.setAttribute('class', 'table');
+                    	var thead = document.createElement("thead");
+                    	var row = document.createElement("TR");
+                    	var cellName = document.createElement("TH"), txtName = document.createTextNode("Property");
+                        var cellValue = document.createElement("TH"), txtValue = document.createTextNode("Value");
+                        
+                        cellName.appendChild(txtName);
+                        row.appendChild(cellName);
+                   	    cellValue.appendChild(txtValue);
+                        row.appendChild(cellValue);
+                        thead.appendChild(row);
+                        tabla.appendChild(thead);
+                        var tbody = document.createElement("tbody");
+                     	
+                    	for(key in metadata){
+                            var data = metadata[key];
+                            tbody.appendChild(createTableRow(key,data));
+                        }
+                    	
+                    	tabla.appendChild(tbody);
+                    	
+                    	//Aqui appendearemos la tabla completa
+                    	file.previewTemplate.querySelector("[data-tagline]").appendChild(tabla);
+                    }
+                    
+                    appendData(metadata);
+                    
+                });
+        	
+        }else if(ext=='pdf'){
+         	
+        	console.log(file);
+        	
+        	
+            	
+    }else{
+           log.console("That file format is not supported"); 
+        }
         
       });
       
@@ -169,23 +188,29 @@
         // And disable the start button
         file.previewElement.querySelector(".start").setAttribute("disabled", "disabled");
         
-        OFFICEPROPS.getData(file).then(function(zip){
-	    	console.log(zip)
-      })
+        //OFFICEPROPS.getData(file).then(function(zip){
+	    	//console.log(zip)
+     // })
 
-        let removed = removedata(file);
-        
-        OFFICEPROPS.getData(removed).then(function(zip){
-	    	console.log(zip)
-      })
-        console.log('new removed file added XX ', removed);
+        //let removed = removedata(file);
+       
+        //OFFICEPROPS.getData(removed).then(function(zip){
+	    	//console.log(zip)
+     // })
+        //console.log('new removed file added XX ', removed);
 	    formData.append('id',document.querySelector("#idfolder").value );
 	    
       });
       
       myDropzone.on("complete", function(file) {
-          
-    	  //showData();
+    	  console.log(file);
+    	  
+    	  
+    	  //file.previewTemplate.querySelector("[data-dz-errormessage]").text("lo logramos!!");
+    	  
+    	  
+    	  //alert("Documento subido correctamente " + file.name);
+    	  
     	  
       });
       
