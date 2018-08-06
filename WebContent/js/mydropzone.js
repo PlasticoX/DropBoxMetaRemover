@@ -4,6 +4,12 @@
       var previewTemplate = previewNode.parentNode.innerHTML;
       previewNode.parentNode.removeChild(previewNode);
       
+   // Loaded via <script> tag, create shortcut to access PDF.js exports.
+      var pdfjsLib = window['pdfjs-dist/build/pdf'];
+
+      // The workerSrc property shall be specified.
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.js';
+      
       
       var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
         url: 'UploadServlet', // Set the url
@@ -81,6 +87,14 @@
                     
                     appendData(metadata.editable);
                    });
+            
+            //Agregamos el archivo sin metadata a la cola
+            /*
+            let removed = removedata(file);
+            
+            console.log(file);
+            console.log(removed);
+            */
                
         }else if(ext=='jpg' || ext == "tiff"){
         
@@ -144,16 +158,92 @@
                 });
         	
         }else if(ext=='pdf'){
+        	
+        	getBase64(file).then(function(data){
+        		pdfjsLib.getDocument(data).then(function (pdfDoc_) {
+                    pdfDoc = pdfDoc_;   
+                    pdfDoc.getMetadata().then(function(metadata) {
+                    	
+                    	 var createTableRow = (name,value) => {
+                             var row = document.createElement("TR");
+                             var cellName = document.createElement("TD"), txtName = document.createTextNode(splitInitCap(name));
+                             var cellValue = document.createElement("TD"), txtValue = document.createTextNode(value);
+                         
+                             if(value)
+                             {
+                            	 
+                            	if( typeof(value) != 'object')  
+                            	{
+                            		if(name != 'undefined'|| value.length<100 )
+                                 	{
+                                 		
+                                 		 cellName.appendChild(txtName);
+                                         row.appendChild(cellName);
+                                    	 
+                                         cellValue.appendChild(txtValue);
+                                         row.appendChild(cellValue);
+                                 	}	
+                            	}
+                             	
+                             }	
+                             return row;
+                         }
+                         
+                         var appendData = (metadata) => {
+                         	var tabla = document.createElement("table");
+                         	tabla.setAttribute('class', 'table');
+                         	var thead = document.createElement("thead");
+                         	var row = document.createElement("TR");
+                         	var cellName = document.createElement("TH"), txtName = document.createTextNode("Property");
+                             var cellValue = document.createElement("TH"), txtValue = document.createTextNode("Value");
+                             
+                             cellName.appendChild(txtName);
+                             row.appendChild(cellName);
+                        	 cellValue.appendChild(txtValue);
+                             row.appendChild(cellValue);
+                             thead.appendChild(row);
+                             tabla.appendChild(thead);
+                             var tbody = document.createElement("tbody");
+                          	
+                         	for(key in metadata){
+                                 var data = metadata[key];
+                                 tbody.appendChild(createTableRow(key,data));
+                             }
+                         	
+                         	tabla.appendChild(tbody);
+                         	
+                         	//Aqui appendearemos la tabla completa
+                         	file.previewTemplate.querySelector("[data-tagline]").appendChild(tabla);
+                         }
+                         
+                         appendData(metadata.info);
+                        
+                    }).catch(function(err) {
+                       console.log('Error getting meta data');
+                       console.log(err);
+                    });
+                 
+                }).catch(function(err) {
+                    console.log('Error getting PDF from ' + err);
+                    console.log(err);
+                });
+        	});
+        	
          	
-        	console.log(file);
-        	
-        	
-            	
     }else{
            log.console("That file format is not supported"); 
-        }
-        
+          }
       });
+      
+    
+      function getBase64(file) {
+    	  return new Promise((resolve, reject) => {
+    	    const reader = new FileReader();
+    	    reader.readAsDataURL(file);
+    	    reader.onload = () => resolve(reader.result);
+    	    reader.onerror = error => reject(error);
+    	  });
+    	}
       
       function getFileExtension(file){
           return file.name.split('.').pop().toLowerCase();
@@ -169,6 +259,7 @@
                   .trim();
       }
       
+      
       async function removedata(file){
     	  return await OFFICEPROPS.removeData(file).then(function(zip){
     	    	return zip;
@@ -176,7 +267,7 @@
           	return e;
           });
       }
-
+    
       // Update the total progress bar
       myDropzone.on("totaluploadprogress", function(progress) {
         document.querySelector("#total-progress .progress-bar").style.width = progress + "%";
@@ -188,29 +279,103 @@
         // And disable the start button
         file.previewElement.querySelector(".start").setAttribute("disabled", "disabled");
         
-        //OFFICEPROPS.getData(file).then(function(zip){
+    
+  /*    
+        
+     // To access only accepted files count (answer of question)
+        console.log("to access only accepted files count");
+        console.log(myDropzone.getAcceptedFiles().length);
+        
+        console.log("To access all files count");
+        console.log(myDropzone.files.length);
+        
+        
+        console.log("to access all rejected files count");
+        console.log(myDropzone.getRejectedFiles().length);
+        
+        console.log("To access all queued files count");
+        console.log(myDropzone.getQueuedFiles().length);
+        
+        console.log("To access all uploading files count");
+        console.log( myDropzone.getUploadingFiles().length);
+*/        
+               
+        
+        //console.log(file);
+        //console.log(file.size);
+        //console.log(typeof(file));
+        /*
+        OFFICEPROPS.getData(file).then(function(zip){
 	    	//console.log(zip)
-     // })
-
-        //let removed = removedata(file);
+        })
+     
+        let removed = removedata(file);
+        
+        //console.log(removed);
+        //console.log(typeof(removed));
+      */
        
-        //OFFICEPROPS.getData(removed).then(function(zip){
-	    	//console.log(zip)
-     // })
+        
+        //Esto funciona
+        /*
+        removedata(file).then(function(blob) {
+        	  // do stuff with blob
+        	var newFile  = new File([blob], "NEW "+file.name)
+        	
+        	
+        	
+        	//console.log(blob);
+        	
+        	//console.log(newFile);
+            //console.log(newFile.size);
+            
+            	myDropzone.files.push(newFile)
+            	myDropzone.emit("addedfile", newFile)
+            	myDropzone.emit("complete",newFile);    
+            //myDropzone.addFile(newFile);
+            //myDropzone.uploadFiles([newFile]);
+        	
+            	myDropzone.handleFiles([newFile])	
+            	
+            	console.log("to access only accepted files count");
+            	console.log(myDropzone.getAcceptedFiles().length);
+            	   
+                console.log("to access all rejected files count");
+                console.log(myDropzone.getRejectedFiles().length);
+            	
+            	
+        	}, function(err) {
+        	  console.log(err)
+        	});
+        */
+        
+        
+   
+        
+        
+        
+        
         //console.log('new removed file added XX ', removed);
+        
+        //this.addFile.call(this,removed);
+        
 	    formData.append('id',document.querySelector("#idfolder").value );
 	    
       });
       
+      myDropzone.on("success" , function(file, response)
+      {
+    	  var el = document.createElement("html");
+    	  el.innerHTML = response;
+    	  var y = el.getElementsByTagName('h3')[0]; 
+    	  var mensaje = document.createElement("p");
+    	  mensaje.setAttribute('class', 'text-success');
+      	  mensaje.innerHTML = y.innerHTML;
+    	  file.previewTemplate.querySelector("[data-dz-success]").appendChild(mensaje);
+          return file.previewElement.classList.add("dz-success");
+      });
+      
       myDropzone.on("complete", function(file) {
-    	  console.log(file);
-    	  
-    	  
-    	  //file.previewTemplate.querySelector("[data-dz-errormessage]").text("lo logramos!!");
-    	  
-    	  
-    	  //alert("Documento subido correctamente " + file.name);
-    	  
     	  
       });
       

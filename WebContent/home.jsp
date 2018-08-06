@@ -26,6 +26,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/officeprops@1.1.0/src/officeprops.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.js"></script>
+<script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
 <script src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="tbwtoqi0zw6sf0y"></script>
 
 <script>
@@ -198,7 +199,6 @@ if (user != null)
 		<br>
 
 		<div class="table table-striped files" id="previews">
-
 			<div id="template" class="file-row">
 				<!-- This is used as the file preview template -->
 				<div>
@@ -207,6 +207,8 @@ if (user != null)
 				<div>
 					<p class="name" data-dz-name></p>
 					<strong class="error text-danger" 1></strong>
+					<div data-dz-success>
+					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-12 tablon" id="tablon" data-tagline>

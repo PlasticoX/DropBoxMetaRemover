@@ -23,7 +23,6 @@ import com.dropbox.core.DbxAppInfo;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.json.JsonReader;
 import com.dropbox.core.v2.DbxClientV2;
-import com.dropbox.core.v2.files.FileMetadata;
 import com.dropbox.core.v2.files.Metadata;
 
 
@@ -89,6 +88,9 @@ public class UploadServlet extends HttpServlet {
 			{
 				List<FileItem> multiparts = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
 				String targetPath = "";
+				
+				
+				System.out.println(multiparts);
 			
 				//For de propiedades
 				for(FileItem item : multiparts)
@@ -114,10 +116,14 @@ public class UploadServlet extends HttpServlet {
 					if(!item.isFormField())
 					{
 						String fileName = item.getName();
+						
+						System.out.println("Otra vez este es el nombre " + fileName);
+						
 						String fullTargetPath = targetPath + "/" + fileName;
-						FileMetadata metadata = dbxClient.files().upload(fullTargetPath).uploadAndFinish(item.getInputStream());
-						request.setAttribute("message", "File uploaded successfully.");
-						System.out.println("Asi quedo en dropbox >> " + metadata.toStringMultiline());
+						//FileMetadata metadata = 
+						dbxClient.files().upload(fullTargetPath).uploadAndFinish(item.getInputStream());
+						request.setAttribute("message", "File uploaded successfully to Dropbox!");
+						//System.out.println("Asi quedo en dropbox >> " + metadata.toStringMultiline());
 					}
 				}
 			}
