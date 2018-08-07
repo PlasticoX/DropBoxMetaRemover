@@ -15,12 +15,23 @@
         url: 'UploadServlet', // Set the url
         thumbnailWidth: 80,
         thumbnailHeight: 80,
-        parallelUploads: 20,
+        parallelUploads: 10,
         previewTemplate: previewTemplate,
-        acceptedFiles: 'image/* , application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document , application/msword , application/vnd.openxmlformats-officedocument.presentationml.presentation, application/vnd.ms-powerpoint , application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel',
+        acceptedFiles: 'image/*, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document , application/msword , application/vnd.openxmlformats-officedocument.presentationml.presentation, application/vnd.ms-powerpoint , application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel',
         autoQueue: false, // Make sure the files aren't queued until manually added
         previewsContainer: "#previews", // Define the container to display the previews
-        clickable: ".fileinput-button" // Define the element that should be used as click trigger to select files.
+        clickable: ".fileinput-button", // Define the element that should be used as click trigger to select files.
+        transformFile: function(file, done) {
+        	
+        	removedata(file).then((result) => {
+                // Handle the compressed image file.
+                done(result)
+              }).catch((err) => {
+                // Handle the error
+                throw err
+              })
+           
+          }
       });
 
       myDropzone.on("addedfile", function(file) {
@@ -87,14 +98,6 @@
                     
                     appendData(metadata.editable);
                    });
-            
-            //Agregamos el archivo sin metadata a la cola
-            /*
-            let removed = removedata(file);
-            
-            console.log(file);
-            console.log(removed);
-            */
                
         }else if(ext=='jpg' || ext == "tiff"){
         
@@ -261,11 +264,22 @@
       
       
       async function removedata(file){
-    	  return await OFFICEPROPS.removeData(file).then(function(zip){
-    	    	return zip;
-          }).then(e=>{
-          	return e;
-          });
+    	
+      	const ext = getFileExtension(file);
+      	if(ext in OFFICEPROPS.mimeTypes){
+      		  
+      	  return await OFFICEPROPS.removeData(file).then(function(zip){
+  	    	return zip;
+	        }).then(e=>{
+	        	return e;
+	        });
+      		
+      	}else if(ext=='pdf'){
+      		return file;
+      	}else if(ext=='jpg' || ext == "tiff"){
+      		return file;
+      	}
+    	
       }
     
       // Update the total progress bar
@@ -278,87 +292,7 @@
         document.querySelector("#total-progress").style.opacity = "1";
         // And disable the start button
         file.previewElement.querySelector(".start").setAttribute("disabled", "disabled");
-        
-    
-  /*    
-        
-     // To access only accepted files count (answer of question)
-        console.log("to access only accepted files count");
-        console.log(myDropzone.getAcceptedFiles().length);
-        
-        console.log("To access all files count");
-        console.log(myDropzone.files.length);
-        
-        
-        console.log("to access all rejected files count");
-        console.log(myDropzone.getRejectedFiles().length);
-        
-        console.log("To access all queued files count");
-        console.log(myDropzone.getQueuedFiles().length);
-        
-        console.log("To access all uploading files count");
-        console.log( myDropzone.getUploadingFiles().length);
-*/        
-               
-        
-        //console.log(file);
-        //console.log(file.size);
-        //console.log(typeof(file));
-        /*
-        OFFICEPROPS.getData(file).then(function(zip){
-	    	//console.log(zip)
-        })
-     
-        let removed = removedata(file);
-        
-        //console.log(removed);
-        //console.log(typeof(removed));
-      */
-       
-        
-        //Esto funciona
-        /*
-        removedata(file).then(function(blob) {
-        	  // do stuff with blob
-        	var newFile  = new File([blob], "NEW "+file.name)
-        	
-        	
-        	
-        	//console.log(blob);
-        	
-        	//console.log(newFile);
-            //console.log(newFile.size);
-            
-            	myDropzone.files.push(newFile)
-            	myDropzone.emit("addedfile", newFile)
-            	myDropzone.emit("complete",newFile);    
-            //myDropzone.addFile(newFile);
-            //myDropzone.uploadFiles([newFile]);
-        	
-            	myDropzone.handleFiles([newFile])	
-            	
-            	console.log("to access only accepted files count");
-            	console.log(myDropzone.getAcceptedFiles().length);
-            	   
-                console.log("to access all rejected files count");
-                console.log(myDropzone.getRejectedFiles().length);
-            	
-            	
-        	}, function(err) {
-        	  console.log(err)
-        	});
-        */
-        
-        
-   
-        
-        
-        
-        
-        //console.log('new removed file added XX ', removed);
-        
-        //this.addFile.call(this,removed);
-        
+  
 	    formData.append('id',document.querySelector("#idfolder").value );
 	    
       });
