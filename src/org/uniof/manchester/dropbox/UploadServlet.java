@@ -86,6 +86,9 @@ public class UploadServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		
+		System.out.println("LLego al servlet de upload");
+		
 		if(ServletFileUpload.isMultipartContent(request))
 		{
 			//Autentication dropbox
@@ -125,9 +128,13 @@ public class UploadServlet extends HttpServlet {
 					if(!item.isFormField())
 					{
 
+						
+						
 						//Aqui empieza el desmadre de nuevo, otra vez a ver de que tipo son
 						String fileName = item.getName();
 						String contentType = MimeTypeUtils.getContentTypeByFileName(fileName);
+						
+						System.out.println("Traigo este content type "+contentType);
 						
 						//Para PDFS
 						if(MimeTypeUtils.getPdfs().contains(contentType))
@@ -158,6 +165,9 @@ public class UploadServlet extends HttpServlet {
 						}
 						else if (MimeTypeUtils.getImages().contains(contentType))
 						{
+							
+							System.out.println("Entro a las imagenes" + contentType );
+							
 							String fullTargetPath = targetPath + "/" + fileName;
 							dbxClient.files().upload(fullTargetPath).uploadAndFinish(item.getInputStream());
 							request.setAttribute("message", "File uploaded successfully to Dropbox!");

@@ -89,6 +89,7 @@ public class MimeTypeUtils {
 		docsword.add("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
 		docsword.add("application/vnd.openxmlformats-officedocument.wordprocessingml.template");
 		docsword.add("application/vnd.ms-word.document.macroEnabled.12");
+		docsword.add("application/vnd.ms-word.template.macroEnabled.12");
 		docsword.add("application/vnd.ms-excel");
 		docsword.add("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 		docsword.add("application/vnd.openxmlformats-officedocument.spreadsheetml.template");

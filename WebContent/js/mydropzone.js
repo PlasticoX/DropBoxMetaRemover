@@ -15,9 +15,9 @@
         url: 'UploadServlet', // Set the url
         thumbnailWidth: 80,
         thumbnailHeight: 80,
-        parallelUploads: 10,
+        parallelUploads: 20,
         previewTemplate: previewTemplate,
-        acceptedFiles: 'image/*, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document , application/msword , application/vnd.openxmlformats-officedocument.presentationml.presentation, application/vnd.ms-powerpoint , application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel',
+        acceptedFiles: 'image/*,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.wordprocessingml.template,application/vnd.ms-word.document.macroEnabled.12,application/vnd.ms-word.template.macroEnabled.12,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel.sheet.macroEnabled.12,application/vnd.ms-excel.sheet.binary.macroEnabled.12,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.openxmlformats-officedocument.presentationml.slideshow,application/vnd.ms-powerpoint.slideshow.macroEnabled.12,application/vnd.ms-powerpoint.presentation.macroEnabled.12,application/vnd.openxmlformats-officedocument.spreadsheetml.template,application/vnd.ms-excel.template.macroEnabled.12,application/vnd.openxmlformats-officedocument.presentationml.template,application/vnd.ms-powerpoint.template.macroEnabled.12,application/vnd.oasis.opendocument.text,application/vnd.oasis.opendocument.presentation,application/vnd.oasis.opendocument.spreadsheet',
         autoQueue: false, // Make sure the files aren't queued until manually added
         previewsContainer: "#previews", // Define the container to display the previews
         clickable: ".fileinput-button", // Define the element that should be used as click trigger to select files.
@@ -34,6 +34,7 @@
           }
       });
 
+      
       myDropzone.on("addedfile", function(file) {
         // Hookup the start button
         file.previewElement.querySelector(".start").onclick = function() {  myDropzone.enqueueFile(file); };
@@ -262,6 +263,29 @@
                   .trim();
       }
       
+      function processImg(image, trgHeight, trgWidth, srcWidth, srcHeight, orientation) {
+    	    var canvas = document.createElement('canvas');
+    	    canvas.width = trgWidth;
+    	    canvas.height = trgHeight;
+
+    	    var img = new Image;
+    	    img.src = image;
+    	    var ctx = canvas.getContext("2d");
+
+    	    if (orientation == 2) ctx.transform(-1, 0, 0, 1, trgWidth, 0);
+    	    if (orientation == 3) ctx.transform(-1, 0, 0, -1, trgWidth, trgHeight);
+    	    if (orientation == 4) ctx.transform(1, 0, 0, -1, 0, trgHeight);
+    	    if (orientation == 5) ctx.transform(0, 1, 1, 0, 0, 0);
+    	    if (orientation == 6) ctx.transform(0, 1, -1, 0, trgHeight, 0);
+    	    if (orientation == 7) ctx.transform(0, -1, -1, 0, trgHeight, trgWidth);
+    	    if (orientation == 8) ctx.transform(0, -1, 1, 0, 0, trgWidth);
+
+    	    ctx.drawImage(img, 0, 0, srcWidth, srcHeight, 0, 0, trgWidth, trgHeight);
+    	    ctx.fill();
+
+    	    return canvas.toDataURL();
+    	}
+      
       
       async function removedata(file){
     	
@@ -277,6 +301,39 @@
       	}else if(ext=='pdf'){
       		return file;
       	}else if(ext=='jpg' || ext == "tiff"){
+      		
+      		
+      		console.log("Entro a las imagenes");
+      		
+      		var trgHeight = 200;
+      		var trgWidth = 200;
+      		
+      		 var reader = new FileReader();
+      	    reader.onload = (function () {
+      	        return (function (e) {
+      	            var image = new Image();
+      	            image.onload = function () {
+      	                (function (file, uri) {
+      	                    EXIF.getData(file, function () {
+      	                        var imgToSend = processImg(
+      	                        uri,
+      	                        trgHeight, trgWidth,
+      	                        this.width, this.height,
+      	                        EXIF.getTag(file, 'Orientation'));
+
+      	                        console.log(imgToSend);
+      	                       
+      	                    });
+      	                })(file, e.target.result);
+      	            };
+      	            image.src = e.target.result;
+      	        })
+      	    })(file);
+      	 	
+      	    reader.readAsDataURL(file)
+      	    
+      	    console.log(file);
+      	    
       		return file;
       	}
     	
